@@ -1,9 +1,9 @@
 version: '3.7'
 services:
   eureka-discovery-service:
-    image: eureka-discovery-service
+    image: eureka-discovery-server
     build:
-      context: eureka-discovery-service
+      context: eureka-discovery-server
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
@@ -27,7 +27,7 @@ services:
   account-service:
     image: account-service
     build:
-      context: account-service
+      context: Account
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
@@ -41,7 +41,7 @@ services:
   loan-service:
     image: loan-service
     build:
-      context: loan-service
+      context: Loan
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
