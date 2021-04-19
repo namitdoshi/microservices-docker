@@ -1,0 +1,57 @@
+version: '3.7'
+services:
+  eureka-discovery-service:
+    image: eureka-discovery-service
+    build:
+      context: eureka-discovery-service
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - docker-network
+      
+  zuul-gateway:
+    image: zuul-gateway
+    build:
+      context: zuul-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    restart: always
+    networks:
+      - docker-network
+    depends_on:
+      - eureka-discovery-service
+   
+  account-service:
+    image: account-service
+    build:
+      context: account-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    restart: always
+    networks:
+      - docker-network
+    depends_on:
+      - eureka-discovery-service
+      - zuul-gateway
+
+  loan-service:
+    image: loan-service
+    build:
+      context: loan-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    restart: always
+    networks:
+      - docker-network
+    depends_on:
+      - eureka-discovery-service
+      - zuul-gateway
+      
+# Networks to be created to facilitate communication between containers
+networks:
+  docker-network:
